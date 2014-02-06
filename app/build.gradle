@@ -1,0 +1,76 @@
+apply plugin: 'android'
+
+
+loadProperties("signing.properties")
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("mcxiaoke.keystore")
+            storePassword project.ext.get("storePassword")
+            keyAlias project.ext.get("keyAlias")
+            keyPassword project.ext.get("keyPassword")
+        }
+    }
+
+    buildTypes {
+
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+
+        beta {
+            signingConfig signingConfigs.release
+            versionNameSuffix "-beta"
+            debuggable true
+        }
+
+        debug {
+            packageNameSuffix null
+            versionNameSuffix "-dev"
+        }
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+    }
+}
+
+dependencies {
+
+    compile 'com.jakewharton:butterknife:4.0.+'
+    compile 'com.koushikdutta.ion:ion:1.+'
+
+    compile 'com.mcxiaoke.commons:core:1.+'
+    compile 'com.mcxiaoke.commons:ui:1.+'
+
+
+}
+
+
+def loadProperties(String fileName) {
+    def config = new Properties()
+    def propFile = file(fileName)
+    System.err.println("load property file: " + propFile.absolutePath)
+    if (propFile.canRead()) {
+        config.load(new FileInputStream(propFile))
+        for (Map.Entry property in config) {
+            System.out.println("property " + property.key + ":" + property.value)
+            project.ext[property.key] = property.value;
+        }
+    }
+}
+

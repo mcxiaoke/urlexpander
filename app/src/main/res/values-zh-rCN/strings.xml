@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">还原短链接</string>
+    <string name="expanding">正在处理…</string>
+    <string name="url_expand_failed">短连接还原失败!</string>
+
+</resources>

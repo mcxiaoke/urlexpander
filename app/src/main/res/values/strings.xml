@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Url Expander</string>
+    <string name="expanding">Expanding…</string>
+    <string name="url_expand_failed">Url Expanded Failed!</string>
+
+    <string name="unshort.me.name">Unshort.me</string>
+    <string name="unshort.me.api">http://api.unshort.me/unshorten/v2/</string>
+    <string name="unshorten.it.name">Unshorten.It</string>
+    <string name="unshorten.it.api">http://api.unshorten.it</string>
+    <string name="unshorten.it.key">46cf09e03460d4687d2aec121153406e</string>
+    <string name="urlex.org.name">Urlex.org</string>
+    <string name="urlex.org.api">http://urlex.org/txt/</string>
+
+</resources>
