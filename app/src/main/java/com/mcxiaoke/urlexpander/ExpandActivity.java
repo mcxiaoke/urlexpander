@@ -1,9 +1,11 @@
 package com.mcxiaoke.urlexpander;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,12 +13,16 @@ import android.widget.ProgressBar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.mcxiaoke.commons.os.TaskExecutor;
+import com.mcxiaoke.commons.utils.LogUtils;
 import com.mcxiaoke.commons.utils.StringUtils;
 import com.mcxiaoke.commons.utils.SystemUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 
 public class ExpandActivity extends Activity {
+    public static final String TAG = ExpandActivity.class.getSimpleName();
 
     @InjectView(android.R.id.progress)
     ProgressBar mProgressBar;
@@ -39,6 +45,10 @@ public class ExpandActivity extends Activity {
             mUrl = uri == null ? null : uri.toString();
         }
 
+        if (BuildConfig.DEBUG) {
+            LogUtils.v(TAG, "mUrl=" + mUrl);
+        }
+
         if (StringUtils.isEmpty(mUrl)) {
             finish();
             return;
@@ -58,7 +68,14 @@ public class ExpandActivity extends Activity {
         final TaskExecutor.TaskCallback<String> callback = new TaskExecutor.TaskCallback<String>() {
             @Override
             public void onTaskSuccess(String result, Bundle bundle, Object o) {
-                onUrlExpanded(result);
+                String url = mUrl;
+                try {
+                    JSONObject json = new JSONObject(result);
+                    url = json.getString("long-url");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                onUrlExpanded(url);
             }
 
             @Override
@@ -66,21 +83,30 @@ public class ExpandActivity extends Activity {
                 if (BuildConfig.DEBUG) {
                     throwable.printStackTrace();
                 }
-                onUrlExpandFailed(throwable);
+                onUrlExpandFailed(getString(R.string.url_expand_failed));
 
             }
         };
-        Api.doExpandUrlByUnShortenIt(mUrl, callback, this);
+        Utils.doExpandUrlByUnShortenIt(mUrl, callback, this);
     }
 
     private void onUrlExpanded(String uriString) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-        startActivity(intent);
+        if (BuildConfig.DEBUG) {
+            Log.v(TAG, "onUrlExpanded: uriString=" + uriString);
+        }
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+            startActivity(intent);
+        }
         finish();
     }
 
-    private void onUrlExpandFailed(Throwable e) {
-        SystemUtils.showToast(this, R.string.url_expand_failed);
+    private void onUrlExpandFailed(String message) {
+        SystemUtils.showToast(this, message);
+        finish();
     }
 
 

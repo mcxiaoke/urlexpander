@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">还原短链接</string>
-    <string name="expanding">正在处理…</string>
-    <string name="url_expand_failed">短连接还原失败!</string>
+    <string name="app_name">短链还原</string>
+    <string name="expand">还原</string>
+    <string name="expanding">正在还原…</string>
+    <string name="url_expand_failed">短链还原失败!</string>
+    <string name="invalid_url">请输入合法的URL!</string>
 
 </resources>

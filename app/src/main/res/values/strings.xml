@@ -2,8 +2,10 @@
 <resources>
 
     <string name="app_name">Url Expander</string>
+    <string name="expand">Expand</string>
     <string name="expanding">Expanding…</string>
     <string name="url_expand_failed">Url Expanded Failed!</string>
+    <string name="invalid_url">Please input valid URL!</string>
 
     <string name="unshort.me.name">Unshort.me</string>
     <string name="unshort.me.api">http://api.unshort.me/unshorten/v2/</string>
