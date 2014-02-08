@@ -1,11 +1,11 @@
 package com.mcxiaoke.urlexpander;
 
 import android.content.Context;
-import com.koushikdutta.ion.Ion;
+import com.mcxiaoke.commons.http.HttpRequest;
 import com.mcxiaoke.commons.os.TaskExecutor;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 /**
  * User: mcxiaoke
@@ -23,17 +23,15 @@ final class Utils {
         final Callable<String> callable = new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return expand(context, shortUrl);
+                return expand(shortUrl);
             }
         };
         return TaskExecutor.getInstance().execute(callable, callback, context);
 
     }
 
-    public static String expand(final Context context, final String shortUrl) throws ExecutionException, InterruptedException {
-
-        return Ion.with(context, API_URL).addQuery("url", shortUrl).addQuery("format", "json")
-                .asString().get();
+    public static String expand(final String shortUrl) throws IOException {
+        return HttpRequest.get(API_URL).addParam("url", shortUrl).addParam("format", "json").execute().getAsAsString();
     }
 
 
