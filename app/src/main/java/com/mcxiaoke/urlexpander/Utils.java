@@ -1,8 +1,8 @@
 package com.mcxiaoke.urlexpander;
 
 import android.content.Context;
-import com.mcxiaoke.commons.http.HttpRequest;
 import com.mcxiaoke.commons.os.TaskExecutor;
+import com.mcxiaoke.commons.http.CatRequest;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -31,7 +31,7 @@ final class Utils {
     }
 
     public static String expand(final String shortUrl) throws IOException {
-        return HttpRequest.get(API_URL).addParam("url", shortUrl).addParam("format", "json").execute().getAsAsString();
+        return CatRequest.get(API_URL).addParam("url", shortUrl).addParam("format", "json").execute().getAsAsString();
     }
 
 
