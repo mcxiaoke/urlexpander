@@ -15,7 +15,7 @@ import butterknife.InjectView;
 import com.mcxiaoke.commons.os.TaskExecutor;
 import com.mcxiaoke.commons.utils.LogUtils;
 import com.mcxiaoke.commons.utils.StringUtils;
-import com.mcxiaoke.commons.utils.SystemUtils;
+import com.mcxiaoke.commons.utils.AndroidUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,7 +105,7 @@ public class ExpandActivity extends Activity {
     }
 
     private void onUrlExpandFailed(String message) {
-        SystemUtils.showToast(this, message);
+        AndroidUtils.showToast(this, message);
         finish();
     }
 

@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.mcxiaoke.commons.os.TaskExecutor;
-import com.mcxiaoke.commons.utils.SystemUtils;
+import com.mcxiaoke.commons.utils.AndroidUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,9 +75,9 @@ public class MainActivity extends Activity implements TextWatcher {
     void onButtonClick() {
         Matcher matcher = Patterns.WEB_URL.matcher(mShortUrl);
         if (!matcher.matches()) {
-            SystemUtils.showToast(this, R.string.invalid_url);
+            AndroidUtils.showToast(this, R.string.invalid_url);
         } else {
-            SystemUtils.hideSoftKeyboard(this, mEditText);
+            AndroidUtils.hideSoftKeyboard(this, mEditText);
             doExpand();
             showProgress();
         }
