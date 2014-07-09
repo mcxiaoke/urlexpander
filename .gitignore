@@ -4,7 +4,6 @@ build
 gen
 bin
 local.properties
-*.apk
 *.iml
 .*.swp
 /.classpath
@@ -16,4 +15,3 @@ gen-external-apklibs/
 target
 classes/
 project.properties
-signing.properties
