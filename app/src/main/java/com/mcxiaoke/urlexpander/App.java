@@ -2,11 +2,12 @@ package com.mcxiaoke.urlexpander;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
-import com.mcxiaoke.commons.utils.LogUtils;
+import com.mcxiaoke.next.utils.LogUtils;
 
 /**
  * User: mcxiaoke
@@ -37,7 +38,7 @@ public class App extends Application {
         // initialize the singleton
         sInstance = this;
 
-        LogUtils.setDefault(this, BuildConfig.DEBUG);
+        LogUtils.setLevel(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT);
     }
 
     /**

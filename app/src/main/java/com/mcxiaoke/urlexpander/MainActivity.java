@@ -13,8 +13,9 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import com.mcxiaoke.commons.os.TaskExecutor;
-import com.mcxiaoke.commons.utils.AndroidUtils;
+import com.mcxiaoke.next.task.SimpleTaskCallback;
+import com.mcxiaoke.next.task.TaskCallback;
+import com.mcxiaoke.next.utils.AndroidUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,9 +100,9 @@ public class MainActivity extends Activity implements TextWatcher {
     }
 
     private void doExpand() {
-        final TaskExecutor.TaskCallback<String> callback = new TaskExecutor.TaskCallback<String>() {
+        final TaskCallback<String> callback = new SimpleTaskCallback<String>() {
             @Override
-            public void onTaskSuccess(String result, Bundle bundle, Object o) {
+            public void onTaskSuccess(String result, Bundle bundle) {
                 String url = mUrl;
                 try {
                     JSONObject json = new JSONObject(result);
@@ -121,7 +122,7 @@ public class MainActivity extends Activity implements TextWatcher {
 
             }
         };
-        Utils.doExpandUrlByUnShortenIt(mUrl, callback, this);
+        Utils.doExpand(mUrl, callback, this);
     }
 
     private void onUrlExpanded(String uriString) {

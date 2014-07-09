@@ -35,7 +35,9 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:scheme="http"
@@ -66,6 +68,28 @@
                 <data
                     android:scheme="http"
                     android:host="goo.gl" />
+                <data
+                    android:scheme="http"
+                    android:host="tinyurl.com" />
+                <data
+                    android:scheme="http"
+                    android:host="tiny.cc" />
+                <data
+                    android:scheme="http"
+                    android:host="bit.do" />
+
+                <data
+                    android:scheme="http"
+                    android:host="cli.gs" />
+
+                <data
+                    android:scheme="http"
+                    android:host="yourls.org" />
+
+                <data
+                    android:scheme="http"
+                    android:host="gplus.to" />
+
 
             </intent-filter>
         </activity>

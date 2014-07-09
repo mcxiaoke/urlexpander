@@ -12,10 +12,11 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.mcxiaoke.commons.os.TaskExecutor;
-import com.mcxiaoke.commons.utils.LogUtils;
-import com.mcxiaoke.commons.utils.StringUtils;
-import com.mcxiaoke.commons.utils.AndroidUtils;
+import com.mcxiaoke.next.task.SimpleTaskCallback;
+import com.mcxiaoke.next.task.TaskCallback;
+import com.mcxiaoke.next.utils.AndroidUtils;
+import com.mcxiaoke.next.utils.LogUtils;
+import com.mcxiaoke.next.utils.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,9 +66,12 @@ public class ExpandActivity extends Activity {
     }
 
     private void doExpand() {
-        final TaskExecutor.TaskCallback<String> callback = new TaskExecutor.TaskCallback<String>() {
+        final TaskCallback<String> callback = new SimpleTaskCallback<String>() {
             @Override
-            public void onTaskSuccess(String result, Bundle bundle, Object o) {
+            public void onTaskSuccess(String result, Bundle bundle) {
+                if (isFinishing()) {
+                    return;
+                }
                 String url = mUrl;
                 try {
                     JSONObject json = new JSONObject(result);
@@ -80,6 +84,9 @@ public class ExpandActivity extends Activity {
 
             @Override
             public void onTaskFailure(Throwable throwable, Bundle bundle) {
+                if (isFinishing()) {
+                    return;
+                }
                 if (BuildConfig.DEBUG) {
                     throwable.printStackTrace();
                 }
@@ -87,7 +94,7 @@ public class ExpandActivity extends Activity {
 
             }
         };
-        Utils.doExpandUrlByUnShortenIt(mUrl, callback, this);
+        Utils.doExpand(mUrl, callback, this);
     }
 
     private void onUrlExpanded(String uriString) {
@@ -97,7 +104,7 @@ public class ExpandActivity extends Activity {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
             startActivity(intent);
-        } catch (ActivityNotFoundException e) {
+        } catch (Exception e) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
             startActivity(intent);
         }
